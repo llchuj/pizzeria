@@ -92,6 +92,44 @@ class SliceOHavenPizzeria {
     public void takeOrder(int pizzaCount, List<String> selectedSides, List<String> selectedDrinks) {
         this.orderTotal += (double) pizzaCount * this.pizzaPrice;
     }
+
+    public void processCardPayment(String cardNumber, String expiryDate, int cvv) {
+        int cardLength = cardNumber.length();
+        if (cardLength == 14) {
+            System.out.println("Card accepted");
+        } else {
+            System.out.println("Invalid card");
+        }
+
+        int firstCardDigit = Integer.parseInt(cardNumber.substring(0, 1));
+        String blacklistedNumber = "12345678901234";
+        if (cardNumber.equals(blacklistedNumber)) {
+            System.out.println("Card is blacklisted. Please use another card");
+        }
+
+        int lastFourDigits = Integer.parseInt(cardNumber.substring(cardNumber.length() - 4));
+
+        StringBuilder cardNumberToDisplayBuilder = new StringBuilder();
+        cardNumberToDisplayBuilder.append(cardNumber.charAt(0));
+        for (int i = 1; i < cardNumber.length() - 4; i++) {
+            cardNumberToDisplayBuilder.append('*');
+        }
+        cardNumberToDisplayBuilder.append(cardNumber.substring(cardNumber.length() - 4));
+        String cardNumberToDisplay = cardNumberToDisplayBuilder.toString();
+
+        System.out.println("First card digit: " + firstCardDigit);
+        System.out.println("Last four digits: " + lastFourDigits);
+        System.out.println("Card number to display: " + cardNumberToDisplay);
+    }
+
+    public void specialOfTheDay(String pizzaOfTheDay, String sideOfTheDay, String specialPrice) {
+        StringBuilder specialInfo = new StringBuilder();
+        specialInfo.append("Pizza of the day: ").append(pizzaOfTheDay);
+        specialInfo.append("\nSide of the day: ").append(sideOfTheDay);
+        specialInfo.append("\nSpecial price: ").append(specialPrice);
+
+        System.out.println(specialInfo.toString());
+    }
 }
 
 public class Main {
@@ -126,5 +164,9 @@ public class Main {
 
         System.out.println("\nDetails of pizza2 (using parameterized constructor after taking order):");
         pizza2.showReceipt();
+
+        pizza2.processCardPayment("12345678901234", "12/25", 123);
+
+        pizza2.specialOfTheDay("Pepperoni Pizza", "Garlic Bread", "$12.99");
     }
 }
